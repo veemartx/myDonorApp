@@ -1,25 +1,85 @@
-//import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, Platform, StatusBar, Button } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoginComponent from '../screens/LoginScreen'
+import RegisterComponent from '../screens/RegisterScreen'
+import ForgotPassComponent from '../screens/ForgotPassScreen'
 
-// create a component
-const AuthStack = () => {
+
+
+
+const getData = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@liu')
+
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+
+    } catch (e) {
+        // error reading value
+        console.log(e)
+    }
+}
+
+
+
+
+const Stack = createStackNavigator();
+
+
+
+
+const AuthComponent = ({ navigation }) => {
+
+    const [loggedIn, setloggedIn] = useState(getData());
+
+    loggedIn.then((tkn) => {
+
+        if (tkn == null) {
+            // storeData({logged_in:false,tkn:uuidv4()});
+        } else {
+
+            // console.log(tkn);
+        }
+
+    })
+
+
     return (
-        <View style={styles.container}>
-            <Text>authStack</Text>
-        </View>
+
+        <Stack.Navigator
+            screenOptions={{
+                // headerShown: false
+            }}
+        >
+            <Stack.Screen
+                name="Login"
+                // options={hea}
+                options={{ title: 'MyDonor Login' }}
+                component={LoginComponent }
+            />
+
+            <Stack.Screen
+                name="Register"
+                options={{ title: 'Register' }}
+                component={RegisterComponent}
+            />
+
+            <Stack.Screen
+                name="ForgotPass"
+                options={{ title: 'Forgot Password' }}
+                component={ForgotPassComponent}
+            />
+
+        </Stack.Navigator>
     );
-};
+}
 
-// define your styles
+
+
+export default AuthComponent;
+
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50',
-    },
-});
 
-//make this component available to the app
-export default AuthStack;
+})
