@@ -1,12 +1,36 @@
+
 {
-  "name": "myDonor",
-  "displayName": "myDonor",
   "expo": {
-    "name": "myDonor",
-    "slug": "myDonor",
+    "name": "MyDonor",
+    "slug": "MyDonor",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/icons/favcon.png",
+    "splash": {
+      "image": "./app/assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./app/assets/icons/favcon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.mydonor.mydonor",
+      "versionCode": 6
+    },
+    "web": {
+      "favicon": "./app/assets/icons/favcon.png"
+    },
+    "description": "Donate Today, Change A Life"
   }
 }
