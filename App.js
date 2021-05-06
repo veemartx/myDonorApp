@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import HomeStack from './app/stacks/appStack'
-import AuthStack from './app/stacks/authStack'
+import AccountStack from './app/stacks/accountStack'
 import DonationsStack from './app/stacks/donationsStack'
 import RequestsStack from './app/stacks/requestsStack'
 import SettingsStack from './app/stacks/settingsStack'
@@ -14,24 +14,18 @@ import AppContext from './app/providers/AppContext'
 // import 'react-native-get-random-values'
 
 
-
 // import  
-
 const Tabs = createBottomTabNavigator();
-
 
 function App() {
 
   // set variable
-  const [user, setUser] = useState([])
-  const [cartCount, setCartCount] = useState(0)
+  const [user, setUser] = useState({})
+
 
   var globalVariables = {
     user: user,
-    cartCount: cartCount,
     setUser: setUser,
-    setCartCount: setCartCount
-
   }
 
 
@@ -80,7 +74,7 @@ function App() {
           <Tabs.Screen name="Requests" component={RequestsStack} />
           <Tabs.Screen name="Donations" component={DonationsStack} />
           <Tabs.Screen name="Settings" component={SettingsStack} />
-          <Tabs.Screen name="Profile" component={AuthStack} />
+          <Tabs.Screen name="Profile" component={AccountStack} />
         </Tabs.Navigator>
 
       </NavigationContainer>

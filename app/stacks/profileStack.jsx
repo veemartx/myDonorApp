@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react';
 import { Text, View, StyleSheet, Platform, StatusBar, Button } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import HomeScreen from '../screens/HomeScreen'
-import RequestComponent from '../screens/RequestScreen'
-import DonateComponent from '../screens/DonateScreen';
+import profileScreen from '../screens/ProfileScreen'
+import AppContext from '../providers/AppContext'
+
+
 
 
 
@@ -25,14 +26,26 @@ const getData = async () => {
 const Stack = createStackNavigator();
 
 
-const AppStack = ({ navigation }) => {
+const profileStack = ({ navigation }) => {
 
     const [loggedIn, setloggedIn] = useState(getData());
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const myContext = useContext(AppContext);
+
+
+    if (myContext.user.logged_in == true) {
+
+        setIsLoggedIn(true);
+
+    }
+
 
     return (
 
 
-
+        
         <Stack.Navigator
             screenOptions={{
                 // headerShown: false
@@ -40,29 +53,13 @@ const AppStack = ({ navigation }) => {
         >
 
             <Stack.Screen
-                name="Home"
+                name="Profile"
                 // options={hea}
-                options={{ title: 'My Donor' }}
-                component={HomeScreen}
+                options={{ title: 'Profile' }}
+                component={profileScreen}
             />
 
-            <Stack.Screen
-                name="Donate"
-                // options={hea}
-                options={{ title: 'Donate' }}
-                component={DonateComponent}
-            />
-
-
-
-            <Stack.Screen
-                name="Request"
-                // options={hea}
-                options={{ title: 'Request' }}
-                component={RequestComponent}
-            />
-
-
+          
 
         </Stack.Navigator>
     );
@@ -70,7 +67,7 @@ const AppStack = ({ navigation }) => {
 
 
 
-export default AppStack;
+export default profileStack;
 
 
 const styles = StyleSheet.create({

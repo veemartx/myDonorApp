@@ -57,13 +57,9 @@ const LoginComponent = ({ navigation }) => {
 
 
 
+    // console.log(myContext)
 
-    const handleForgotPassword = () => {
-
-        WebBrowser.openBrowserAsync('https://patadose.co.ke/account/forgot-password');
-    }
-
-
+    
     const handleLogin = (navigation) => {
 
         let formData = {
@@ -75,11 +71,11 @@ const LoginComponent = ({ navigation }) => {
         // console.log(formData);
         setisLoading(true);
 
-        axios.post('https://patadose.co.ke/app/login.php', qs.stringify(formData))
+        axios.post('http://192.168.100.5/projects/myDonor/app/login.php', qs.stringify(formData))
 
             .then(function (response) {
 
-                console.log(response['data']);
+                // console.log(response['data']);
 
                 let res = response['data'];
 
@@ -87,7 +83,7 @@ const LoginComponent = ({ navigation }) => {
 
                     let lgu = {
                         logged_in: true,
-                        tkn: res.customer_id
+                        tkn: res.userId
                     }
 
                     // store then read 
@@ -99,14 +95,6 @@ const LoginComponent = ({ navigation }) => {
                             // console.log(loggedIn);
 
                             myContext.setUser(lgu);
-
-                            // get the new cart couunt 
-                            axios.post('https://patadose.co.ke/app/getCartQty.php', qs.stringify({ tkn: res.customer_id }))
-                                .then(function (response) {
-                                    myContext.setCartCount(response.data);
-
-                                    console.log(response.data);
-                                })
 
                         })
                     })

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, View, StyleSheet, Platform, StatusBar, Button } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginComponent from '../screens/LoginScreen'
 import RegisterComponent from '../screens/RegisterScreen'
 import ForgotPassComponent from '../screens/ForgotPassScreen'
+import AppContext from '../providers/AppContext'
+
 
 
 
@@ -23,40 +25,40 @@ const getData = async () => {
 
 
 
-
 const Stack = createStackNavigator();
-
-
 
 
 const AuthComponent = ({ navigation }) => {
 
     const [loggedIn, setloggedIn] = useState(getData());
 
-    loggedIn.then((tkn) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-        if (tkn == null) {
-            // storeData({logged_in:false,tkn:uuidv4()});
-        } else {
+    const myContext = useContext(AppContext);
 
-            // console.log(tkn);
-        }
 
-    })
+    if (myContext.user.logged_in == true) {
+
+        setIsLoggedIn(true);
+
+    }
 
 
     return (
 
+
+        
         <Stack.Navigator
             screenOptions={{
                 // headerShown: false
             }}
         >
+
             <Stack.Screen
                 name="Login"
                 // options={hea}
                 options={{ title: 'MyDonor Login' }}
-                component={LoginComponent }
+                component={LoginComponent}
             />
 
             <Stack.Screen

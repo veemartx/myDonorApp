@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ScrollView, StyleSheet, View, StatusBar, Alert, ToastAndroid } from 'react-native';
+import { ScrollView, StyleSheet, View, StatusBar, Alert, Text, ToastAndroid } from 'react-native';
 // import from react native elements 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button, CheckBox } from 'react-native-elements';
@@ -33,24 +33,26 @@ const storeData = async (value) => {
 }
 
 
-const ValidateEmail = (inputText) => {
-    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (inputText.match(mailformat)) {
-        // alert("Valid email address!");
-        return true;
-    } else {
-
-        return false;
-    }
-
-}
-
 const RegisterComponent = ({ navigation }) => {
 
-    const handleForgotPassword = () => {
 
-        WebBrowser.openBrowserAsync('https://patadose.co.ke/account/forgot-password');
-    }
+    const PROP = [
+        {
+            key: 'M',
+            text: 'Male',
+        },
+        {
+            key: 'F',
+            text: 'Female',
+        }
+        ,
+        {
+            key: 'O',
+            text: 'Other',
+        }
+
+    ];
+
 
     const [isLoading, setisLoading] = useState(false)
 
@@ -59,26 +61,7 @@ const RegisterComponent = ({ navigation }) => {
 
     const myContext = useContext(AppContext);
 
-    const [selectedCounty, setSelectedCounty] = useState();
-
-
-    const PROP = [
-        {
-            key: 'Male',
-            text: 'Male',
-        },
-        {
-            key: 'Female',
-            text: 'Female',
-        }
-        ,
-        {
-            key: 'Other',
-            text: 'Other',
-        }
-
-    ];
-
+    const [selectedCounty, setSelectedCounty] = useState("");
 
     const [firstName, setfirstName] = useState('');
     const [lastName, setlastName] = useState('');
@@ -87,6 +70,10 @@ const RegisterComponent = ({ navigation }) => {
     const [sex, setSex] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setconfirmPassword] = useState('');
+    const [weight, setWeight] = useState(65);
+    const [height, setHeight] = useState(150);
+    const [town, setTown] = useState("");
+    const [bloodType, setBloodType] = useState("");
 
 
     function handleChange(newValue) {
@@ -98,13 +85,18 @@ const RegisterComponent = ({ navigation }) => {
     const handleFormSubmit = (navigation) => {
 
         let formData = {
-            first_name: firstName,
-            last_name: lastName,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             phone: phone,
             password: password,
             gender: sex,
-            consfirmPassword: confirmPassword
+            confirmPassword: confirmPassword,
+            county: selectedCounty,
+            weight: weight,
+            height: height,
+            town: town,
+            bloodType: bloodType
         }
 
         if (password != confirmPassword) {
@@ -115,29 +107,139 @@ const RegisterComponent = ({ navigation }) => {
 
             setisLoading(true);
 
-            axios.post('https://patadose.co.ke/app/createAccount.php', qs.stringify(formData))
+
+            if(town==''){
+
+                ToastAndroid.show('Town Is Required', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+            }
+
+            if(selectedCounty==''){
+
+                ToastAndroid.show('County Is Required', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+            if(firstName==''){
+
+                ToastAndroid.show('Fill In The First Name', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+            if(lastName==''){
+
+                ToastAndroid.show('Fill In The Last Name', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+            if(email==''){
+
+                ToastAndroid.show('Email Is Required', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+            if(phone==''){
+
+                ToastAndroid.show('Phone Is Required', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+            if(weight==''){
+
+                ToastAndroid.show('Weight Is Required', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+            if(height==''){
+
+                ToastAndroid.show('Height Is Required', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+            if(gender==''){
+
+                ToastAndroid.show('Select Gender', ToastAndroid.SHORT);
+
+                setisLoading(false);
+
+                return
+
+            }
+
+
+
+
+
+
+            axios.post('http://192.168.100.5/projects/myDonor/app/createAccount.php', qs.stringify(formData))
 
                 .then(function (response) {
 
-                    // console.log(response['data']);
-
-                    let res = response['data'];
-
+                    console.log(response['data']);
 
                     ToastAndroid.show(res.message, ToastAndroid.SHORT);
 
 
                     if (res.success === true) {
 
-                        storeData({ logged_in: true, tkn: res.c_id }).then(() => {
+                        storeData({ logged_in: true, tkn: res.tkn }).then(() => {
 
                             // navigation.navigate('Home');
-                            myContext.setUser({ logged_in: true, tkn: res.c_id });
+                            myContext.setUser({ logged_in: true, tkn: res.tkn });
 
-                            console.log({ logged_in: true, tkn: res.c_id })
+                            console.log({ logged_in: true, tkn: res.tkn })
+
+                            // navigate to home page 
+                            navigation.navigate('Home')
 
                         });
                     }
+
+                    setisLoading(false);
+
+                })
+
+                .catch((err)=>{
+
+                    console.log(err);
 
                     setisLoading(false);
 
@@ -235,7 +337,6 @@ const RegisterComponent = ({ navigation }) => {
 
                     <Input
                         placeholder="Your Weight (Kgs)"
-                        secureTextEntry={true}
                         leftIcon={
                             <Icon
                                 name='balance-scale'
@@ -245,7 +346,7 @@ const RegisterComponent = ({ navigation }) => {
                             />
                         }
 
-                        onChangeText={(val) => { setPassword(val) }}
+                        onChangeText={(val) => { setWeight(val) }}
                         keyboardType='number-pad'
 
                     />
@@ -263,26 +364,33 @@ const RegisterComponent = ({ navigation }) => {
                             />
                         }
 
-                        onChangeText={(val) => { setconfirmPassword(val) }}
+                        onChangeText={(val) => { setHeight(val) }}
 
                         keyboardType='number-pad'
                     />
 
 
+                    <View style={{ height: 50 }}>
 
-                    <View style={{height:50,backgroundColor:'red'}}>
+
+
+                        <Text style={{ fontSize: 20, color: 'gray' }}>
+                            Select County
+                        </Text>
 
                         <Picker
                             selectedValue={selectedCounty}
-                            style={{ backgroundColor: 'rgba(0,0,0,1)' }}
+                            style={{ backgroundColor: 'rgba(0,0,0,1)', flex: 1, color: 'gray' }}
                             height={30}
-                            onValueChange={()=>{
+                            mode='dropdown'
+                            onValueChange={(val) => {
 
-                                console.log('data')
+                                console.log(val);
+                                setSelectedCounty(val);
                             }}
-                        // mode='dropdown'
+
                         >
-                            <Picker.Item label="Select County" />
+
                             <Picker.Item label='Baringo' value='Baringo' />
                             <Picker.Item label='Bomet' value='Bomet' />
                             <Picker.Item label='Bungoma' value='Bungoma' />
@@ -330,9 +438,59 @@ const RegisterComponent = ({ navigation }) => {
                             <Picker.Item label='Vihiga' value='Vihiga' />
                             <Picker.Item label='West Pokot' value='West Pokot' />
                             <Picker.Item label='wajir' value='wajir' />
-                  
+
                         </Picker>
                     </View>
+
+
+                    <View style={{ height: 50 ,marginTop:20}}>
+
+                        <Text style={{ fontSize: 20, color: 'gray' }}>
+                            Blood Type
+                        </Text>
+
+                        <Picker
+                            selectedValue={selectedCounty}
+                            style={{ backgroundColor: 'rgba(0,0,0,1)', flex: 1, color: 'gray' }}
+                            height={30}
+                            mode='dropdown'
+                            onValueChange={(val) => {
+
+                                console.log(val);
+                                setBloodType(val);
+                            }}
+
+                        >
+
+                            <Picker.Item label='A-' value='A-' />
+                            <Picker.Item label='A+' value='A+' />
+                            <Picker.Item label='B-' value='B-' />
+                            <Picker.Item label='B+' value='B+' />
+                            <Picker.Item label='O-' value='O-' />
+                            <Picker.Item label='O+' value='o+' />
+                            <Picker.Item label='AB-' value='AB-' />
+                            <Picker.Item label='AB+' value='AB+' />
+
+
+                        </Picker>
+                    </View>
+
+
+                    <Input
+                        placeholder="Town/City"
+                        leftIcon={
+                            <Icon
+                                name='map'
+                                type='font-awesome'
+                                size={24}
+                                color='gray'
+                            />
+                        }
+
+                        onChangeText={(val) => { setTown(val) }}
+                    />
+
+
 
                     <Input
                         placeholder="Your Password"
