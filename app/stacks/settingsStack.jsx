@@ -1,25 +1,43 @@
-//import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Text, View, StyleSheet, Platform, StatusBar, Button } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack';
+import SettingsHome from '../screens/SettingsScreen'
 
-// create a component
-const SettingsStack = () => {
+
+
+const Stack = createStackNavigator();
+
+
+const SettingStack = ({ navigation }) => {
+
+
     return (
-        <View style={styles.container}>
-            <Text>Settings </Text>
-        </View>
+
+
+        <Stack.Navigator
+            screenOptions={{
+                // headerShown: false
+            }}
+        >
+
+            <Stack.Screen
+                name="DonationsHome"
+                // options={hea}
+                options={{ title: 'Settings' }}
+                component={SettingsHome}
+            />
+
+
+
+        </Stack.Navigator>
     );
-};
+}
 
-// define your styles
+
+
+export default SettingStack;
+
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50',
-    },
-});
 
-//make this component available to the app
-export default SettingsStack;
+})

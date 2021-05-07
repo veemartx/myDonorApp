@@ -462,6 +462,8 @@ const RegisterComponent = ({ navigation }) => {
 
                         >
 
+                            
+
                             <Picker.Item label='A-' value='A-' />
                             <Picker.Item label='A+' value='A+' />
                             <Picker.Item label='B-' value='B-' />
