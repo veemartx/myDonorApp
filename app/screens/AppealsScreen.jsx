@@ -3,6 +3,7 @@ import React, { Component, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import axios from 'axios'
 import qs from 'qs'
+import baseUrl from '../providers/AppConfig';
 
 // create a component
 const AppealsHome = () => {
@@ -14,7 +15,7 @@ const AppealsHome = () => {
     useEffect(() => {
 
         // get the appeasl 
-        axios.post('http://192.168.100.5/projects/myDonor/app/getAppeals.php')
+        axios.post(baseUrl+'getAppeals.php')
 
             .then(function (response) {
 

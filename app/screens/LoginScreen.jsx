@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 import qs from 'qs'
 import AppContext from '../providers/AppContext'
+import baseUrl from '../providers/AppConfig';
 
 
 
@@ -71,7 +72,7 @@ const LoginComponent = ({ navigation }) => {
         // console.log(formData);
         setisLoading(true);
 
-        axios.post('http://192.168.100.5/projects/myDonor/app/login.php', qs.stringify(formData))
+        axios.post(baseUrl+'login.php', qs.stringify(formData))
 
             .then(function (response) {
 

@@ -5,6 +5,7 @@ import { Image, Icon, Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 import qs from 'qs'
+import baseUrl from '../providers/AppConfig';
 
 
 
@@ -26,7 +27,6 @@ const getData = async () => {
 
 
 
-
 // create a component
 const HomeComponent = ({ navigation }) => {
 
@@ -38,7 +38,7 @@ const HomeComponent = ({ navigation }) => {
 
         getData().then((liu) => {
 
-            axios.post('http://192.168.100.5/projects/myDonor/app/getUser.php', qs.stringify(liu))
+            axios.post(baseUrl+'getUser.php', qs.stringify(liu))
 
                 .then(function (response) {
 

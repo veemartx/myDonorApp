@@ -16,6 +16,7 @@ import { Picker } from '@react-native-picker/picker';
 
 // get the radio button
 import RadioButton from '../components/RadioButton'
+import baseUrl from '../providers/AppConfig';
 
 const input = React.createRef();
 
@@ -209,7 +210,7 @@ const RegisterComponent = ({ navigation }) => {
 
 
 
-            axios.post('http://192.168.100.5/projects/myDonor/app/createAccount.php', qs.stringify(formData))
+            axios.post(baseUrl+'createAccount.php', qs.stringify(formData))
 
                 .then(function (response) {
 

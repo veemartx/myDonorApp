@@ -7,6 +7,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import baseUrl from '../providers/AppConfig';
 
 
 
@@ -63,7 +64,7 @@ const RequestComponent = () => {
 
     const getLatestAppointment = () => {
 
-        axios.post('http://192.168.100.5/projects/myDonor/app/getLatestAppointment.php', qs.stringify(user))
+        axios.post(baseUrl+'getLatestAppointment.php', qs.stringify(user))
 
             .then(function (response) {
 
@@ -95,7 +96,7 @@ const RequestComponent = () => {
         }
 
 
-        axios.post('http://192.168.100.5/projects/myDonor/app/createAppeal.php', qs.stringify(appointmentDetails))
+        axios.post(baseUrl+'createAppeal.php', qs.stringify(appointmentDetails))
 
             .then(function (response) {
 
@@ -143,7 +144,7 @@ const RequestComponent = () => {
 
 
         // get the centers 
-        axios.post('http://192.168.100.5/projects/myDonor/app/getCenters.php')
+        axios.post(baseUrl+'app/getCenters.php')
 
             .then(function (response) {
 
