@@ -44,6 +44,9 @@ const AccountStack = ({ navigation }) => {
 
             getData().then((va) => {
 
+                console.log(va);
+
+                
                 // console.log(va)
                 if (va.logged_in === true) {
 

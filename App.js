@@ -28,7 +28,6 @@ function App() {
     setUser: setUser,
   }
 
-
   return (
 
     <AppContext.Provider value={globalVariables}>

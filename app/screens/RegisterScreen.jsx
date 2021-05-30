@@ -251,8 +251,7 @@ const RegisterComponent = ({ navigation }) => {
 
     return (
 
-        <View style={styles.container}>
-            <ScrollView >
+            <ScrollView style={styles.container}>
 
                 <View style={styles.formContainer}>
 
@@ -572,7 +571,6 @@ const RegisterComponent = ({ navigation }) => {
                 </View>
 
             </ScrollView>
-        </View>
 
     );
 }

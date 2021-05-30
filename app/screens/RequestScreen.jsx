@@ -204,10 +204,10 @@ const RequestComponent = () => {
                         }}
 
                     >
-                        {centers.map((item, index) => {
+                        {/* {centers.map((item, index) => {
                             return (< Picker.Item label={item} value={item} key={index} />);
                         })}
-
+ */}
 
                     </Picker>
                 </View>

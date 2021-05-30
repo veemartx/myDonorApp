@@ -33,21 +33,30 @@ const HomeComponent = ({ navigation }) => {
     const [user, setUser] = useState({});
 
 
+
     // use effect to get the data 
     useEffect(() => {
 
         getData().then((liu) => {
 
-            axios.post(baseUrl+'getUser.php', qs.stringify(liu))
+            if (liu == undefined) {
+
+                // navgate to login 
+                navigation.navigate('Profile');
+            }
+
+
+            axios.post(baseUrl + 'getUser.php', qs.stringify(liu))
 
                 .then(function (response) {
 
                     let res = response['data'];
 
+                    // alert(liu);
+
                     console.log(res);
 
                     setUser(res);
-
 
                 })
 

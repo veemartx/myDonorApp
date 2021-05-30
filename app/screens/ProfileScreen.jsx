@@ -35,9 +35,22 @@ const ProfileComponet = () => {
 
 
 
-    const handleLogout = () => {
+    const  handleLogout = async () => {
 
-        console.log('logout init');
+        // console.log('logout init');
+
+        // remove the sata  
+        try {
+            await AsyncStorage.removeItem('@liu');
+
+            alert('logout');
+
+            
+            return true;
+        }
+        catch (exception) {
+            return false;
+        }
 
     }
 
@@ -47,7 +60,7 @@ const ProfileComponet = () => {
 
         getData().then((liu) => {
 
-            axios.post(baseUrl+'getUser.php', qs.stringify(liu))
+            axios.post(baseUrl + 'getUser.php', qs.stringify(liu))
 
                 .then(function (response) {
 
